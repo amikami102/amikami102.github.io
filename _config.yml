@@ -5,7 +5,7 @@ permalink:           pretty
 title:               'map(planA, ~ get_planB(.))'
 tagline:             'Asako Mikami'
 description:         'I write this blog to keep myself accountable.'
-url:                 https://amikami102.github.io
+url:                  ''
 baseurl:             /
 paginate:            3
 
