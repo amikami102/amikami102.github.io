@@ -6,7 +6,7 @@ title:               'map(planA, ~ get_planB(.))'
 tagline:             'Asako Mikami'
 description:         'I write this blog to keep myself accountable.'
 url:                 https://amikami102.github.io
-baseurl:             'https://github.com/amikami102.github.io/'
+baseurl:             /
 paginate:            3
 
 # About/contact
