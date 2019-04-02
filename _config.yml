@@ -6,7 +6,7 @@ title:               'map and pipe operator'
 tagline:             'Asako Mikami'
 description:         'I write this blog to keep myself accountable. The title is attributed to my favorite `R` functions.'
 url:                  https://amikami102.github.io
-baseurl:             http://amikami102.github.io/
+baseurl:             https://amikami102.github.io/
 paginate:            3
 
 # About/contact
