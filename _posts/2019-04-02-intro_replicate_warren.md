@@ -26,7 +26,7 @@ At the end of the data collection, I expect to collect the following features fo
 For each publication counted in `n_publication`, I would collect the following attributes:
 
 - `type`: (factor) peer-reviewed article, book chapter, book;
-- `journal`: (factor) if peer-reveiwed article, the title of the journal;
+- `journal`: (str) if peer-reveiwed article, the title of the journal;
 - `method`: (factor) qualitative, quantitative, or mixed.
 
 
