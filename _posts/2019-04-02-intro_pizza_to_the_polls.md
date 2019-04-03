@@ -9,7 +9,7 @@ title: "Introducing 'pizza_to_the_polls' project"
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">Pizza 1300 S Grand Ave, Santa Ana, CA 92705, USA?<br>. ∧＿∧ <br> (´･ω･)<br>　 |　⌒Ｙ⌒　/ /<br>　 \ヽ　 ｜　 ﾉ／<br>　　＼ ﾄー🍕ーｲ /<br>　　 ｜ ミ土彡 ｜<br> <br>5 pizzas ABSOLUTELY <br> <br>via <a href="https://t.co/34xXjQiPJc">https://t.co/34xXjQiPJc</a></p>&mdash; Pizza to the Polls (@PizzaToThePolls) <a href="https://twitter.com/PizzaToThePolls/status/1060035393968660480?ref_src=twsrc%5Etfw">November 7, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
-Using Twitter API, I have scraped their midterm election tweets and parsed out the polling location addresses. In other words, I have a nonrandom sample of polling locations that a.) had long lines but b.) also had social media-savvy voters waiting in those lines. My goal is to merge compare these polling locations with other polling locations to evaluate how local governments are administering electoral process. In the United States, the party that controls state legislatures tend to have overwhelming opportunity to manipulate the electoral process in their favor through redistricting, legislations, and administration. 
+Using Twitter API, I have scraped their midterm election tweets and parsed out the polling location addresses. In other words, I have a nonrandom sample of polling locations that a.) had long lines but b.) also had social media-savvy voters waiting in those lines. For each of these locations, I want to identify the closest ten polling locations that did not have long lines. My goal is to test whether it is possible to predict this from the demographic features of the communities near the polling locations. 
 
 ## About Pizza to the Polls
 
@@ -22,4 +22,5 @@ In accordance with these exemption requirements, there is an obvious partisan fl
 [^activity]: [This article](https://zapier.com/blog/pizza-to-the-polls-automation/?utm_medium=social&utm_source=twitter) from *zapier* sheds more light on how the organization delivers pizzas. 
 
 
+## Data Collection
 
