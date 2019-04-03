@@ -19,4 +19,5 @@ In accordance with these exemption requirements, there is an obvious partisan fl
 
 [^activity]: [This article](https://zapier.com/blog/pizza-to-the-polls-automation/?utm_medium=social&utm_source=twitter) from *zapier* sheds more light on how the organization delivers pizzas. 
 
-## Data Collection 
+
+
