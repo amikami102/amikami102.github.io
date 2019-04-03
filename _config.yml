@@ -20,5 +20,5 @@ author:
 version:             1.0.0
 
 plugins: 
-  - 'jekyll-paginate'
-  - 'jekyll-twitter-plugin'
+  - jekyll-paginate
+  - jekyll-twitter-plugin
