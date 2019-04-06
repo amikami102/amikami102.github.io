@@ -2,7 +2,7 @@
 layout: post
 title: "Introducing 'pizza_to_the_polls' project"
 description: introduction to the project
-tags: pizza_to_the_polls, scraping_tweets, current_project, web_scape, python, R
+tags: pizza_to_the_polls scraping_tweets current_project web_scape python R
 ---
 
 The inspiration for `pizza_to_the_polls` came during the 2018 midterm election when I came across a Twitter account called [`@PizzaTothePolls`](https://twitter.com/PizzaToThePolls). On November 6, 2018, it was tweeting about delivering pizzas to polling locations across the United States (sample tweet below). 

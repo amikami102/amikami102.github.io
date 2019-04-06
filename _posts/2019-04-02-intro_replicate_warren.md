@@ -2,7 +2,7 @@
 layout: post
 title: Introducing `replicate_warren` project
 description: introduction to the project
-tags: replicate_warren, current_project, web_scrape, python, R
+tags: replicate_warren current_project web_scrape python R
 ---
 
 I have a project called `replicate_warren` (a private Github repository), where I am trying to replicate a sociology study by John Robert Warren. Published earlier this year in *Sociological Science* is titled, the study is titled ["How Much Do You Have to Publish to Get a Job in a Top Sociology Department? Or to Get Tenure? Trends over a Generation"](https://www.sociologicalscience.com/articles-v6-7-172/). To put it succinctly, Warren collects data from resumes of sociology PhD graduates and measures how over-achieving recent PhD graduates have to be to land a junior faculty jobs at top sociology departments in the United States. I am trying to replicate the study in the political science field. Due to similar job market structure, I expect to see similar trends in hiring--i.e., higher hurdles for publication numbers and longer post-doc years before first faculty position--but I am also interested in looking at how the trends differ among the four subfields, namely American politics, comparative politics, political theory, and international relations. I have heard rumors about political theory job openings being much lower than other subfields, and it would be valuable to visualize the differences among subfields with data. Second, I want to examine how PhD graduates using qualitative methods are faring in the job market relative to those who heavily use quantitative methods. 
