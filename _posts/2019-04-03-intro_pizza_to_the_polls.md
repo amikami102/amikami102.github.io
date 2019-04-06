@@ -14,7 +14,7 @@ The inspiration for `pizza_to_the_polls` came during the 2018 midterm election w
 Using Twitter API, I have scraped @PizzaToThePoll's midterm election tweets and parsed out the polling location addresses. (Click on thumbnail below to jump to shiny app.)
 
 
-[![2018 midterm polling locations]({{site.baseurl}}/_img/thumbnail_pizza_to_the_polls.png)](https://asakomikami.shinyapps.io/pizza_to_the_polls/)
+[![2018 midterm polling locations]({{site.baseurl}}/img/thumbnail_pizza_to_the_polls.png)](https://asakomikami.shinyapps.io/pizza_to_the_polls/)
 
 In other words, I have a nonrandom sample of polling locations that a.) had long lines and b.) had social media-savvy voters waiting in those lines. Next, I will find other polling locations from state government websites. The descriptive analysis will entail comparison of the demographic features of the communities surrounding the polling locations and whether competitive districts were more likely to have longer polling lines.
 
