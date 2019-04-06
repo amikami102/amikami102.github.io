@@ -11,7 +11,12 @@ The inspiration for `pizza_to_the_polls` came during the 2018 midterm election w
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">Pizza 1300 S Grand Ave, Santa Ana, CA 92705, USA?<br>. ∧＿∧ <br> (´･ω･)<br>　 |　⌒Ｙ⌒　/ /<br>　 \ヽ　 ｜　 ﾉ／<br>　　＼ ﾄー🍕ーｲ /<br>　　 ｜ ミ土彡 ｜<br> <br>5 pizzas ABSOLUTELY <br> <br>via <a href="https://t.co/34xXjQiPJc">https://t.co/34xXjQiPJc</a></p>&mdash; Pizza to the Polls (@PizzaToThePolls) <a href="https://twitter.com/PizzaToThePolls/status/1060035393968660480?ref_src=twsrc%5Etfw">November 7, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
-Using Twitter API, I have scraped @PizzaToThePoll's midterm election tweets and parsed out the polling location addresses. In other words, I have a nonrandom sample of polling locations that a.) had long lines and b.) had social media-savvy voters waiting in those lines. Next, I will find other polling locations from state government websites. The descriptive analysis will entail comparison of the demographic features of the communities surrounding the polling locations and whether competitive districts were more likely to have longer polling lines.
+Using Twitter API, I have scraped @PizzaToThePoll's midterm election tweets and parsed out the polling location addresses. (Click on thumbnail below to jump to shiny app.)
+
+
+[![2018 midterm polling locations]({{site.baseurl}}/_img/thumbnail_pizza_to_the_polls.png)](https://asakomikami.shinyapps.io/pizza_to_the_polls/)
+
+In other words, I have a nonrandom sample of polling locations that a.) had long lines and b.) had social media-savvy voters waiting in those lines. Next, I will find other polling locations from state government websites. The descriptive analysis will entail comparison of the demographic features of the communities surrounding the polling locations and whether competitive districts were more likely to have longer polling lines.
 
 ## About Pizza to the Polls
 
