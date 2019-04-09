@@ -2,7 +2,7 @@
 layout: post
 title: "Collecting weather data using `rnoaa`, Intro."
 description: Tutorial post on how to collect historical weather data using R package, 'rnoaa'.
-tags: R
+tags: R weather_data rnoaa
 ---
 
 There was a coauthored project that required historical weather data for the United States at the county level. Specifically, we wanted to get data on the highest temperature and the precipitation level for a specific 7 day interval in years 2006, 2008, 2010, 2012, 2014, and 2016. We can imagine that the final product would have the following columns:
