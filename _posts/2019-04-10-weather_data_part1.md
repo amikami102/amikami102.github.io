@@ -13,10 +13,10 @@ There is a public database published by National Oceanic Atmospheric Administrat
 
 So, it sounds like GHCN-Daily is exactly the database we want to access. Thankfully, NOAA has set up an API (Application Programming Interface) to facilitate user interaction with their database. We will use `rnoaa` package to interact with the NOAA API, which in turn will make requests to the NOAA data server. The overall steps are as follows:
 
-1. [obtain NOAA API key token](#Step1);
-2. [obtain weather data with `rnoaa::ncdc()`](#Step2);
-3. [obtain weather station data with `rnoaa::ncdc_stations()`](#Step3);
-4. [join the data obtain from step 2 to that from step 3.](#Step4)
+1. [obtain NOAA API key token](#Step-1);
+2. [obtain weather data with `rnoaa::ncdc()`](#Step-2);
+3. [obtain weather station data with `rnoaa::ncdc_stations()`](#Step-3);
+4. [join the data obtain from step 2 to that from step 3.](#Step-4)
 
 ## Step 1
 
