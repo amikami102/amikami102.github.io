@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Collecting weather data using `rnoaa`, Task 1.1."
+title: "Collecting weather data using `rnoaa` package, Part I"
 description: Tutorial post on how to collect historical weather data using R package, 'rnoaa'.
 tags: R weather_data rnoaa
 ---
 
-As stated in the introductory post, we want daily precipitation and highest temperature recorded by weather stations in the United States for a 7-day interval in the year 2006, specifically from November 1st to Novebmer 7th, 2006.
+As stated in the introductory post, we want the daily total precipitation level recorded by weather stations in the United States for a 7-day interval in the year 2006, specifically from November 1st to Novebmer 7th, 2006.
 
 There is a public database published by National Oceanic Atmospheric Administration (NOAA) called Global Historical Climate Network Daily (GHCN-Daily). Here is the opening paragraph of the description from the [official website](https://www.ncdc.noaa.gov/ghcn-daily-description):
 
@@ -13,21 +13,22 @@ There is a public database published by National Oceanic Atmospheric Administrat
 
 So, it sounds like GHCN-Daily is exactly the database we want to access. Thankfully, NOAA has set up an API (Application Programming Interface) to facilitate user interaction with their database. We will use `rnoaa` package to interact with the NOAA API, which in turn will make requests to the NOAA data server. The overall steps are as follows:
 
-1. obtain NOAA API key token;
-2. obtain weather data with `rnoaa::ncdc()`;
-3. obtain weather station data with `rnoaa::ncdc_stations()`;
-4. join the data obtain from step 2 to that from step 3.
+1. [obtain NOAA API key token](#Step1);
+2. [obtain weather data with `rnoaa::ncdc()`](#Step2);
+3. [obtain weather station data with `rnoaa::ncdc_stations()`](#Step3);
+4. [join the data obtain from step 2 to that from step 3.](#Step4)
 
-## Obtain and store NOAA API key token
+## Step 1
 
 After getting an [API key token](https://www.ncdc.noaa.gov/cdo-web/token), I wrote the key in my ".Renviron" file located in my home directory.[^key] Write the following line in your command line, substituting `<your-api-key>` with your NOAA API key token.
 
 ```
 $ echo 'NOAA_KEY = <your-api-key>' > .Renviron
 ```
+[^key]: For how to store an API key, I referred to [Section 2.4 "R Startup"](https://csgillespie.github.io/efficientR/r-startup.html#r-startup-arguments) in *Efficient R Programming* by Gillepsie and Lovelace.
 
 
-## `ncdc()` to obtain weather data 
+## Step 2
 
 Let's set up the libraries and API key. 
 ```r
@@ -56,8 +57,8 @@ ncdc(datasetid = NULL, datatypeid = NULL, stationid = NULL,
 ```
 I will be using the following six arguments:
 
-- `datasetid = GHCND` to access GHCN-Daily,
-- `datatypeid = PRCP` to get the precipitation level record (`TMAX` for highest temperaure),[^datatype]
+- `datasetid = "GHCND"` to access GHCN-Daily,
+- `datatypeid = "PRCP"` to get the precipitation level,[^datatype]
 - `startdate` and `enddate` to specify the date I want the data for,
 - `limit = 1000` to set the number of results per request to 1000 (the maximum),
 - `offset` to specify which entry to start displaying. 
@@ -67,7 +68,7 @@ I will be using the following six arguments:
 Here is the code for the function I wrote to retrieve precipitation data for a specific day. I will breakdown the code into steps and explain them one by one. 
 
 ```r
-get_prcp <- function(day){
+get_prcp <- function(day, datatype){
                 #------------------
                 # Retrieves the precipitation data for 
                 # a specific day.
@@ -87,8 +88,8 @@ get_prcp <- function(day){
                                 startdate = as.character(day),
                                 enddate = as.character(day))$meta$totalCount %/% 1000
                 for(i in 1:counter){
-                    safe_ncdc <- safely(ncdc) 
-                    response <- safe_ncdc(datasetid = "GHCND",
+                    safe_fun <- safely(ncdc) 
+                    response <- safe_fun(datasetid = "GHCND",
                         datatypeid = "PRCP",
                         startdate = as.character(day),
                         enddate = as.character(day),
@@ -96,7 +97,8 @@ get_prcp <- function(day){
                         offset = 1000*i)
                     df <- response$result$data %>%
                             select(station, value) %>% rbind(df)
-                    log(response$error)
+                    # print error message if not NULL
+                    if(!is.null(response$error)){loginfo(response$error)}
                 }
                 return(df)
         }
@@ -117,11 +119,11 @@ counter <- ncdc(datasetid = "GHCND",
                 enddate = as.character(day))$meta$totalCount %/% 1000
 ```
 
-The final component of `get_prcp` is this `for` loop. To catch exceptions caused by bad requests or missing data, I first create `safe_ncdc` by wrapping `ncdc()` with `safely()` function from `purrr` package. It can be thought of as a safe version of ncdc that will  handle errors without stopping the function from running. `safe_ncdc` will return a list with two lists, `result` and `error`. The `result` sublist contains the usual output of `ncdc()` while the `error` sublist contains the error messages if an error occurs. I chose to display the error in log message. 
+The final component of `get_prcp` is this `for` loop. To catch exceptions caused by bad requests or missing data, I first create `safe_fun` by wrapping `ncdc()` with `safely()` function from `purrr` package. It can be thought of as a safe version of ncdc that will  handle errors without stopping the function from running. `safe_fun` will return a list with two lists, `result` and `error`. The `result` sublist contains the usual output of `ncdc()` while the `error` sublist contains the error messages if an error occurs and `NULL` otherwise.
 ```r
 for(i in 1:counter){
-    safe_ncdc <- safely(ncdc) 
-    response <- safe_ncdc(datasetid = "GHCND",
+    safe_fun <- safely(ncdc) 
+    response <- safe_fun(datasetid = "GHCND",
                         datatypeid = "PRCP",
                         startdate = as.character(day),
                         enddate = as.character(day),
@@ -130,7 +132,8 @@ for(i in 1:counter){
     df <- response$result$data %>%
             select(station, value) %>% 
             rbind(df)
-    log(response$error)
+    # print error message if not NULL
+    if(!is.null(response$error)){loginfo(response$error)}
 }
 ```
 
@@ -167,7 +170,7 @@ List of 7
   ..$ value  : int [1:11253] 0 0 0 0 0 0 0 0 0 0 ...
 ```
 
-## `ncdc_stations()` to obtain weather station coordinates
+## Step 3
 
 Next, we want to get more information on the weather stations, specifically their geographical coordinates. We will use the function, `rnoaa::ncdc_stations()`. (Again, many of these arguments are deprecated as of `rnoaa` version 0.8.4.)
 ```r
@@ -180,13 +183,13 @@ ncdc_stations(stationid = NULL, datasetid = NULL, datatypeid = NULL,
 ```
 Similar to the arguments for `ncdc()`, I will be using the following arguments:
 
-- `datasetid = GHCND`,
-- `datatypeid = PRCP`,
+- `datasetid = "GHCND"`,
+- `datatypeid = "PRCP"`,
 - `startdate = "2006-11-01` and `enddate = "2006-11-07"` because I only want weather stations whose data recorded from 2006-11-01 to 2006-11-07 are available,
 - `limit = 1000`,
 - `offset`. 
 
-Like the previous section, I will present the function `get_stations` and then explain the components one by one. Since the function is very similar to `get_prcp`, I will only cover the part of the code that is unique to this function.
+The following function retrieves information on weather stations. Note that its structure and steps are very similar to `get_prcp`. 
 ```r
 get_stations <- function(start, end){
         #--------------------------------
@@ -196,8 +199,8 @@ get_stations <- function(start, end){
         # Output is a dataframe with three columns: 
         # the station id, longitude, and latitude. 
         #-------------------------------
-        # state (chr, start date)
-        # end (chr, end date)
+        # state (chr, start date in YYYY-MM-DD format)
+        # end (chr, end date in YYYY-MM-DD format)
         #--------------------------------
         
         # count how many API requests are necessary to get all the results
@@ -206,50 +209,95 @@ get_stations <- function(start, end){
                               startdate = start, 
                               enddate = end,
                               limit = 1000)$meta$totalCount %/% 1000
-        
-        
-        get_geocoord <- function(i){
-                #-----------------
-                # Filters rows for weather stations located in the US
-                # and selects relevant columns from the GHCND-daily.
-                #------------------
-                # i (num, page counter)
-                #------------------
-                response <- ncdc_stations(datasetid = "GHCND",
-                              datatypeid = "PRCP",
-                              startdate = yr_list$start, 
-                              enddate = yr_list$end,
-                              limit = 1000,
-                              offset = 1000*i)$data
-                out <- response %>% 
-                        dplyr::select(id, longitude, latitude) %>%
-                        filter(grepl("GHCND:US", id))
-                return(out)
-        }
+        # create empty dataframe to store output
         df <- data.frame(station = character(),
                          longitude = numeric(),
                          latitude = numeric())
         for (i in 1:counter){
-              tryCatchLog({
-                      loginfo("Processing %d of %d", i, counter)
-                      data <- get_geocoord(i)
-              },
-              error = function(e){
-                      message(e)
-                      return(NA)
-              },
-              warning = function(w){
-                      message(w)
-                      return(NA)
-              },
-              finally = {
-                     out <- rbind(df, data)
-                     
-              })
-      }
-      out <- out %>% filter(!duplicated(out))# remove duplicates
-      return(out)
+                safe_fun <- safely(ncdc_stations)
+                response <- safe_fun(datasetid = "GHCND",
+                                datatypid = "PRCP",
+                                startdate = start,
+                                enddate = end, 
+                                limit = 1000,
+                                offset = 1000*i)
+                df <- response$result$data %>%
+                        select(id, longitude, latitude) %>%
+                        filter(grepl("GHCND:US", id)) %>%
+                        rbind(df)
+                if(!is.null(response$error)){loginfo(response$error)}
+        }
+      df %<>% filter(!duplicated(df)) # remove duplicates
+      return(df)
 }
 ```
 
-[^key]: For how to store an API key, I referred to [Section 2.4 "R Startup"](https://csgillespie.github.io/efficientR/r-startup.html#r-startup-arguments) in *Efficient R Programming* by Gillepsie and Lovelace.
+```r
+stations <- days[c(1, 7)] %>% map2(~ get_stations(.x, .y))
+glimpse(stations)
+```
+
+```
+Observations: 416
+Variables: 3
+$ id        <chr> "GHCND:USW00026523", "GHCND:USW00026…
+$ longitude <dbl> -151.2391, -150.0950, -152.1067, -15…
+$ latitude  <dbl> 60.57970, 62.32000, 65.17500, 66.916…
+```
+
+## Step 4
+
+Let's go over the two list objects, `prcp_data` and `stations`. `prcp_data` is a list of 7 dataframes, each dataframe recording the precipitation level recorded by weather stations in the United States on one 7 days listed in `days`. `stations` is a dataframe of weather stations with their longitude and latitude. Naturally, we want to join `stations` to each dataframe in `prcp_data` by the station id.
+
+```r
+prcp_data %<>% map(~{
+        left_join(.x, stations, by = c("station" = "id")) %>%
+                drop_na(longitude, latitude)
+})
+glimpse(prcp_data)
+```
+
+```
+List of 7
+ $ 2006-11-01:Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	400 obs. of  4 variables:
+  ..$ station  : chr [1:400] "GHCND:USW00026523" "GHCND:USW00026528" "GHCND:USW00026529" "GHCND:USW00026533" ...
+  ..$ value    : int [1:400] 0 0 0 0 0 8 0 18 3 0 ...
+  ..$ longitude: num [1:400] -151 -150 -152 -152 -162 ...
+  ..$ latitude : num [1:400] 60.6 62.3 65.2 66.9 60.8 ...
+ $ 2006-11-02:Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	399 obs. of  4 variables:
+  ..$ station  : chr [1:399] "GHCND:USW00026523" "GHCND:USW00026528" "GHCND:USW00026529" "GHCND:USW00026533" ...
+  ..$ value    : int [1:399] 0 0 0 0 0 0 0 3 0 5 ...
+  ..$ longitude: num [1:399] -151 -150 -152 -152 -162 ...
+  ..$ latitude : num [1:399] 60.6 62.3 65.2 66.9 60.8 ...
+ $ 2006-11-03:Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	399 obs. of  4 variables:
+  ..$ station  : chr [1:399] "GHCND:USW00026523" "GHCND:USW00026528" "GHCND:USW00026529" "GHCND:USW00026533" ...
+  ..$ value    : int [1:399] 0 0 0 0 5 0 23 0 0 0 ...
+  ..$ longitude: num [1:399] -151 -150 -152 -152 -162 ...
+  ..$ latitude : num [1:399] 60.6 62.3 65.2 66.9 60.8 ...
+ $ 2006-11-04:Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	399 obs. of  4 variables:
+  ..$ station  : chr [1:399] "GHCND:USW00026523" "GHCND:USW00026528" "GHCND:USW00026529" "GHCND:USW00026533" ...
+  ..$ value    : int [1:399] 0 0 0 0 3 0 0 0 0 0 ...
+  ..$ longitude: num [1:399] -151 -150 -152 -152 -162 ...
+  ..$ latitude : num [1:399] 60.6 62.3 65.2 66.9 60.8 ...
+ $ 2006-11-05:Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	399 obs. of  4 variables:
+  ..$ station  : chr [1:399] "GHCND:USW00026523" "GHCND:USW00026528" "GHCND:USW00026529" "GHCND:USW00026533" ...
+  ..$ value    : int [1:399] 0 0 0 0 0 3 0 13 5 0 ...
+  ..$ longitude: num [1:399] -151 -150 -152 -152 -162 ...
+  ..$ latitude : num [1:399] 60.6 62.3 65.2 66.9 60.8 ...
+ $ 2006-11-06:Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	401 obs. of  4 variables:
+  ..$ station  : chr [1:401] "GHCND:USW00026523" "GHCND:USW00026528" "GHCND:USW00026529" "GHCND:USW00026533" ...
+  ..$ value    : int [1:401] 0 0 0 8 0 0 0 3 5 0 ...
+  ..$ longitude: num [1:401] -151 -150 -152 -152 -162 ...
+  ..$ latitude : num [1:401] 60.6 62.3 65.2 66.9 60.8 ...
+ $ 2006-11-07:Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	401 obs. of  4 variables:
+  ..$ station  : chr [1:401] "GHCND:USW00026523" "GHCND:USW00026528" "GHCND:USW00026529" "GHCND:USW00026533" ...
+  ..$ value    : int [1:401] 0 0 0 0 0 0 0 0 0 0 ...
+  ..$ longitude: num [1:401] -151 -150 -152 -152 -162 ...
+  ..$ latitude : num [1:401] 60.6 62.3 65.2 66.9 60.8 ...
+```
+
+This completes the task of collecting daily precipitation data recorded by weather stations in the United States betwen November 1st and November 7th, 2006. In Part II, we will use Kriging interpolation on this data to obtain precipitation data for each county. 
+```r
+export(prcp_data, "prcp_data.rds")
+```
+
