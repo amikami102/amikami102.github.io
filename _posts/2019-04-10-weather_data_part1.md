@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Collecting weather data using `rnoaa` package, Part I"
-description: Tutorial post on how to collect historical weather data using R package, 'rnoaa'.
+title: "Collecting historical weather data, Part I"
+description: Part I to a series on how to collect historical weather data using R package, 'rnoaa' and `arcpy` python package.
 tags: R weather_data rnoaa
 ---
 
