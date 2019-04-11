@@ -16,7 +16,7 @@ So, it sounds like GHCN-Daily is exactly the database we want to access. Thankfu
 1. [obtain NOAA API key token](#Step-1);
 2. [obtain weather data with `rnoaa::ncdc()`](#Step-2);
 3. [obtain weather station data with `rnoaa::ncdc_stations()`](#Step-3);
-4. [join the data obtain from step 2 to that from step 3.](#Step-4)
+4. [join dataframes.](#Step-4)
 
 ## Step 1
 
@@ -63,7 +63,7 @@ I will be using the following six arguments:
 - `limit = 1000` to set the number of results per request to 1000 (the maximum),
 - `offset` to specify which entry to start displaying. 
 
-[^datatype]: Consult [the documentation](https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt) from NOAA website for more information on available data types for GHCND-Daily.
+[^datatype]: Consult [the documentation](https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt) from NOAA website for more information on available data types for GHCN-Daily.
 
 Here is the code for the function I wrote to retrieve precipitation data for a specific day. I will breakdown the code into steps and explain them one by one. 
 
