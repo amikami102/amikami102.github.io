@@ -13,14 +13,10 @@ There is a public database published by National Oceanic Atmospheric Administrat
 
 So, it sounds like GHCN-Daily is exactly the database we want to access. Thankfully, NOAA has set up an API (Application Programming Interface) to facilitate user interaction with their database. We will use `rnoaa` package to interact with the NOAA API, which in turn will make requests to the NOAA data server. The overall steps are as follows:
 
-1. [obtain NOAA API key token](#Step-1);
-2. [obtain weather data with `rnoaa::ncdc()`](#Step-2);
-3. [obtain weather station data with `rnoaa::ncdc_stations()`](#Step-3);
-4. [join dataframes](#Step-4);
-5. [create spatial point dataframes](#Step-5).
+* TOC
 {:toc}
 
-## Step 1
+## Step 1: obtain NOAA API key token
 
 After getting an [API key token](https://www.ncdc.noaa.gov/cdo-web/token), I wrote the key in my ".Renviron" file located in my home directory.[^key] Write the following line in your command line, substituting `<your-api-key>` with your NOAA API key token.
 
@@ -30,7 +26,7 @@ $ echo 'NOAA_KEY = <your-api-key>' > .Renviron
 [^key]: For how to store an API key, I referred to [Section 2.4 "R Startup"](https://csgillespie.github.io/efficientR/r-startup.html#r-startup-arguments) in *Efficient R Programming* by Gillepsie and Lovelace.
 
 
-## Step 2
+## Step 2: obtain weather data with `rnoaa::ncdc()`
 
 Let's set up the libraries and API key. 
 ```r
@@ -172,7 +168,7 @@ List of 7
   ..$ value  : int [1:11253] 0 0 0 0 0 0 0 0 0 0 ...
 ```
 
-## Step 3
+## Step 3: obtain weather station data with `rnoaa::ncdc_stations()`
 
 Next, we want to get more information on the weather stations, specifically their geographical coordinates. We will use the function, `rnoaa::ncdc_stations()`. (Again, many of these arguments are deprecated as of `rnoaa` version 0.8.4.)
 ```r
@@ -247,7 +243,7 @@ $ longitude <dbl> -151.2391, -150.0950, -152.1067, -15…
 $ latitude  <dbl> 60.57970, 62.32000, 65.17500, 66.916…
 ```
 
-## Step 4
+## Step 4: join dataframes
 
 Let's go over the two list objects, `prcp_data` and `stations`. `prcp_data` is a list of 7 dataframes, each dataframe recording the precipitation level recorded by weather stations in the United States on one 7 days listed in `days`. `stations` is a dataframe of weather stations with their longitude and latitude. Naturally, we want to join `stations` to each dataframe in `prcp_data` by the station id.
 
@@ -302,7 +298,7 @@ List of 7
 export(prcp_data, file = "prcp_data.rds")
 ```
 
-## Step 5
+## Step 5: create spatial point dataframes
 
 
 In Part II, we will be performing Kriging interpolation in Python. For this, we need to convert the seven dataframes in `prcp_data` to spatial point dataframes and save them as shapefiles.
