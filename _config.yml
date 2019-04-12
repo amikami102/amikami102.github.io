@@ -14,7 +14,7 @@ disqus:               asakomikami
 
 # Build settings
 markdown: kramdown
-paginate: 3 # number of posts you want per page
+paginate: 5 # number of posts you want per page
 highlighter: rouge
 
 # About/contact
