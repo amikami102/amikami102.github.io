@@ -12,15 +12,10 @@ NB:bangbang: [`arcpy`](https://pro.arcgis.com/en/pro-app/arcpy/get-started/what-
 
 I am going to follow the steps documented in [Cooperman (2017) "Supplementary Materials for “Randomization Inference with Rainfall Data: Using Historical Weather Patterns for Variance Estimation.”](https://doi-org.ezproxy.bu.edu/10.1017/pan.2017.17) We will be using universal Kriging, which is the method used by the original paper that Cooperman (2017) is replicating.[^method] The main steps are 
 
-1. convert `prcp_data` to point shapefile;
-2. reproject the shapefile;
-3. perform kriging interpolation;
-4. reproject the raster output;
-5. take zonal statistics.
+* TOC
 {:toc}
 
 [^method]: There are other interpolation methods such as inverse distance weighing (IDW) that are probably more appropriate for rainfall data. See [Meghan Walter (2013) "Mapping Precipitation: Analysis of GIS Interpolation Techniques"](http://sites.tufts.edu/gis/files/2013/02/Walter_Meghan.pdf); [Noori et al. (2014) "Spatial Estimation of Rainfall Distribution and its Classification in Duhok Governorate Using GIS," *Journal of Water REsource and Protection*](http://dx.doi.org/10.4236/jwarp.2014.62012). 
 
 
-## Step 1: Convert `prcp_data` to point shapefile
 
