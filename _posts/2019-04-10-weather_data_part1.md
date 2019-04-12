@@ -16,7 +16,9 @@ So, it sounds like GHCN-Daily is exactly the database we want to access. Thankfu
 1. [obtain NOAA API key token](#Step-1);
 2. [obtain weather data with `rnoaa::ncdc()`](#Step-2);
 3. [obtain weather station data with `rnoaa::ncdc_stations()`](#Step-3);
-4. [join dataframes.](#Step-4)
+4. [join dataframes](#Step-4);
+5. [create spatial point dataframes](#Step-5).
+{:toc}
 
 ## Step 1
 
@@ -63,7 +65,7 @@ I will be using the following six arguments:
 - `limit = 1000` to set the number of results per request to 1000 (the maximum),
 - `offset` to specify which entry to start displaying. 
 
-[^datatype]: Consult [the documentation](https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt) from NOAA website for more information on available data types for GHCN-Daily.
+[^datatype]: Consult [the documentation](https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.ncdc:C00861) from NOAA website for more information on available data types for GHCN-Daily.
 
 Here is the code for the function I wrote to retrieve precipitation data for a specific day. I will breakdown the code into steps and explain them one by one. 
 
@@ -296,8 +298,50 @@ List of 7
   ..$ latitude : num [1:401] 60.6 62.3 65.2 66.9 60.8 ...
 ```
 
-This completes the task of collecting daily precipitation data recorded by weather stations in the United States betwen November 1st and November 7th, 2006. In Part II, we will use Kriging interpolation on this data to obtain precipitation data for each county. 
 ```r
-export(prcp_data, "prcp_data.rds")
+export(prcp_data, file = "prcp_data.rds")
 ```
 
+## Step 5
+
+
+In Part II, we will be performing Kriging interpolation in Python. For this, we need to convert the seven dataframes in `prcp_data` to spatial point dataframes and save them as shapefiles.
+
+```r
+library(rgdal)
+library(sp)
+
+# get the NAD 1983 projection string 
+nad1983 <- "http://spatialreference.org/ref/epsg/nad83/proj4/" %>%
+        readLines(warn = FALSE)
+
+prcp_data %>% imap(~{
+        # create spatial points dataframe object
+        spdf <- SpatialPointsDataFrame(
+                .x[, c("longitude", "latitude")],
+                data = .x, 
+                proj4string = CRS(nad1983)
+                )
+        # save spdf as a shape file
+        writeOGR(obj = spdf, 
+                 dsn = file.path("rainfall_shp"),
+                 layer = paste0("rainfall", .y),
+                 driver = "ESRI Shapefile")
+})
+```
+So now, I have seven shapefiles in my "rainfall_shp" subdirectory.
+```r
+list.files("rainfall_shp")
+```
+```
+[1] "rainfall2006-11-01.shp" "rainfall2006-11-02.shp"
+[3] "rainfall2006-11-03.shp" "rainfall2006-11-04.shp"
+[5] "rainfall2006-11-05.shp" "rainfall2006-11-06.shp"
+[7] "rainfall2006-11-07.shp"
+```
+
+Below, using "rainfall2006-11-01.shp", I have produced a map of the precipitation level recorded on November 1st, 2006 in the United States.
+
+![Rainfall on November 1st, 2006](/img/rainfall2006-11-01.png)
+
+That completes the first task of collecting the data. :smile: Next in Part II, we'll be performing interpolation on these shapefiles to get precipitation level for each county. 
