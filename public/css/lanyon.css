@@ -216,7 +216,7 @@ a.sidebar-nav-item:focus {
   left: 1rem;
   display: block;
   padding: .25rem .75rem;
-  color: #505050;
+  color: rbga(0,0,0,0);
   background-color: #fff;
   border-radius: .25rem;
   cursor: pointer;
@@ -227,10 +227,10 @@ a.sidebar-nav-item:focus {
   width: 1rem;
   height: .75rem;
   content: "";
-  background-image: -webkit-linear-gradient(to bottom, #555, #555 20%, #fff 20%, #fff 40%, #555 40%, #555 60%, #fff 60%, #fff 80%, #555 80%, #555 100%);
-  background-image:    -moz-linear-gradient(to bottom, #555, #555 20%, #fff 20%, #fff 40%, #555 40%, #555 60%, #fff 60%, #fff 80%, #555 80%, #555 100%);
-  background-image:     -ms-linear-gradient(to bottom, #555, #555 20%, #fff 20%, #fff 40%, #555 40%, #555 60%, #fff 60%, #fff 80%, #555 80%, #555 100%);
-  background-image:         linear-gradient(to bottom, #555, #555 20%, #fff 20%, #fff 40%, #555 40%, #555 60%, #fff 60%, #fff 80%, #555 80%, #555 100%);
+  background-image: -webkit-linear-gradient(to bottom, rbga(0,0,0,0), rbga(0,0,0,0) 20%, #fff 20%, #fff 40%, rbga(0,0,0,0) 40%, rbga(0,0,0,0) 60%, #fff 60%, #fff 80%, rbga(0,0,0,0) 80%, rbga(0,0,0,0) 100%);
+  background-image:    -moz-linear-gradient(to bottom, rbga(0,0,0,0), rbga(0,0,0,0) 20%, #fff 20%, #fff 40%, rbga(0,0,0,0) 40%, rbga(0,0,0,0) 60%, #fff 60%, #fff 80%, rbga(0,0,0,0) 80%, rbga(0,0,0,0) 100%);
+  background-image:     -ms-linear-gradient(to bottom, rbga(0,0,0,0), rbga(0,0,0,0) 20%, #fff 20%, #fff 40%, rbga(0,0,0,0) 40%, rbga(0,0,0,0) 60%, #fff 60%, #fff 80%, rbga(0,0,0,0) 80%, rbga(0,0,0,0) 100%);
+  background-image:         linear-gradient(to bottom, rbga(0,0,0,0), rbga(0,0,0,0) 20%, #fff 20%, #fff 40%, rbga(0,0,0,0) 40%, rbga(0,0,0,0) 60%, #fff 60%, #fff 80%, rbga(0,0,0,0) 80%, rbga(0,0,0,0) 100%);
 }
 
 .sidebar-toggle:active,
