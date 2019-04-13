@@ -237,7 +237,7 @@ a.sidebar-nav-item:focus {
 #sidebar-checkbox:focus ~ .sidebar-toggle,
 #sidebar-checkbox:checked ~ .sidebar-toggle {
   color: #fff;
-  background-color: #555;
+  background-color: rbga(0,0,0,0);
 }
 
 .sidebar-toggle:active:before,
